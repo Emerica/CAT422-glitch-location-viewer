@@ -9,6 +9,7 @@ player = {
         startTime: new Date(),
     },
     username: null,
+    avatar:"img/glitchen/root_base.png",
     size: {
         width: 78,
         height: 119
@@ -175,7 +176,7 @@ player = {
                 if (otherPlayer.length === 0) {
                     var otherPlayerSprite = $('<div>').addClass('other_player_holder').attr({'id': 'other_player_holder_' + user, 'data-id': user}).append(
                         $('<div>').attr('class', 'other_player_frame').append(
-                            $('<div>').attr('class', 'other_player').css('background-image', 'url(img/glitchen/root_base.png)')
+                            $('<div>').attr('class', 'other_player').css('background-image', 'url(' + player.avatar + ')')
                         )
                     );
                     otherPlayerSprite.append($('<div>').addClass('nameLabel').text(user));
@@ -235,6 +236,25 @@ player = {
             var newName = $('.newName').val().replace(/\ /g, '_').replace(/[^a-zA-Z 0-9 ]+/g,'');
             if (newName !== '' && newName !== player.username) {
                 socket.emit('changeName', newName);
+		
+		//console.log("set new name");
+		var spriteAPI = "http://pxn.ca/glitch/sprite.php?";
+		$.getJSON( spriteAPI, {q: newName.replace(/_/g, "+")})
+		.done(function( data ) {
+			//alert( newName.replace(/_/g, "+"));
+			player.avatar = data.sprites[0];
+			player.size.width   = data.size[0]/15;
+			player.size.height   = data.size[1];
+			$('.player').css('width',player.size.width);
+			$('.player_frame').css('width',player.size.width);
+			$('.player_holder').css('width',player.size.width);
+			$('.player').css('height',player.size.height);
+			$('.player_holder').css('height',player.size.height);
+			$('.player_frame').css('height',player.size.height);
+			$('.player').css('background-image','url(' + player.avatar + ')');
+			
+		});
+		//socket.emit('changeAvatar', player.avatar );
             }
         });
 
