@@ -334,7 +334,7 @@ control = {
             if (id == 'middleground') {
                 var playerSprite = $('<div>').attr('class', 'player_holder').append(
                     $('<div>').attr('class', 'player_frame').append(
-                        $('<div>').attr('class', 'player').css('background-image', 'url(img/glitchen/root_base.png)')
+                        $('<div>').attr('class', 'player').css('background-image', 'url(' + player.avatar + ')')
                     )
                 );
                 playerSprite.append($('<div>').addClass('nameLabel').text(player.username));
